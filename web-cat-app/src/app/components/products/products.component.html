@@ -1,1 +1,43 @@
-<p>products works!</p>
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+  <ul class="navbar navbar-nav">
+    <li>
+      <button  (click)="onGetAllProducts()" class="btn btn-outline-info ml-2">All</button>
+    </li>
+    <li>
+      <button class="btn btn-outline-info ml-2">Selected</button>
+    </li>
+    <li>
+      <button class="btn btn-outline-info ml-2">Available</button>
+    </li>
+  </ul>
+</nav>
+<ng-container *ngIf="products$ | async as result" [ngSwitch]="result.dataState">
+  <ng-container *ngSwitchCase="dataStateEnum.LOADING">
+    Loading...
+  </ng-container>
+  <ng-container *ngSwitchCase="dataStateEnum.ERROR">
+    <div class="alert-danger">
+    {{result.errorMessage}}
+    </div>
+  </ng-container>
+  <ng-container *ngSwitchCase="dataStateEnum.LOADED">
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Selected</th>
+        <th>Available</th>
+      </tr>
+      <tr *ngFor="let product of result.data">
+        <th>{{product.id}}</th>
+        <th>{{product.name}}</th>
+        <th>{{product.price}}</th>
+        <th>{{product.quantity}}</th>
+        <th>{{product.selected}}</th>
+        <th>{{product.available}}</th>
+      </tr>
+    </table>
+  </ng-container>
+</ng-container>
