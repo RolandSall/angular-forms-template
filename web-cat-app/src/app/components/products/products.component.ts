@@ -6,7 +6,6 @@ import {catchError, map, startWith} from 'rxjs/operators';
 import {AppDataState, DataStateEnum} from '../../state/product.state';
 
 
-
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -18,15 +17,15 @@ export class ProductsComponent implements OnInit {
   dataStateEnum = DataStateEnum;
 
 
-
-  constructor(private productService: ProductsService) { }
+  constructor(private productService: ProductsService) {
+  }
 
   ngOnInit(): void {
 
   }
 
   onGetAllProducts(): void {
-   this.products$ = this.productService.getAllProducts().pipe(
+    this.products$ = this.productService.getAllProducts().pipe(
       // tslint:disable-next-line:no-unused-expression
       map(data => ({dataState: DataStateEnum.LOADED, data})),
       startWith({dataState: DataStateEnum.LOADING}),
@@ -52,7 +51,7 @@ export class ProductsComponent implements OnInit {
     );
   }
 
-  onSearch(dataForm: any): void{
+  onSearch(dataForm: any): void {
     console.log(dataForm);
     this.products$ = this.productService.searchProducts(dataForm.keyword).pipe(
       // tslint:disable-next-line:no-unused-expression
@@ -60,5 +59,22 @@ export class ProductsComponent implements OnInit {
       startWith({dataState: DataStateEnum.LOADING}),
       catchError(err => of({dataState: DataStateEnum.ERROR, errorMessage: err.message}))
     );
+  }
+
+  onSelect(product: Product): void {
+    this.productService.select(product)
+      .subscribe(data => {
+        product.selected = data.selected;
+      });
+  }
+
+  onDelete(product: Product): void {
+    const verify = confirm('Are You Sure You Want To Proceed');
+    if (verify) {
+      this.productService.deleteProduct(product)
+        .subscribe(data => {
+          this.onGetAllProducts();
+        });
+    }
   }
 }

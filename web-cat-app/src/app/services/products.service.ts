@@ -31,4 +31,15 @@ export class ProductsService {
     const host = environment.baseUrl;
     return this.http.get<Product[]>(host + '/products?name_like=' + keyword);
   }
+
+  select(product: Product): Observable<Product>{
+    const host = environment.baseUrl;
+    product.selected = !product.selected;
+    return this.http.put<Product>(host + '/products/' + product.id, product);
+  }
+
+  deleteProduct(product: Product): Observable<void>{
+    const host = environment.baseUrl;
+    return this.http.delete<void>(host + '/products/' + product.id);
+  }
 }

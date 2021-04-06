@@ -43,12 +43,23 @@
         <th>Available</th>
       </tr>
       <tr *ngFor="let product of result.data">
-        <th>{{product.id}}</th>
-        <th>{{product.name}}</th>
-        <th>{{product.price}}</th>
-        <th>{{product.quantity}}</th>
-        <th>{{product.selected}}</th>
-        <th>{{product.available}}</th>
+        <td>{{product.id}}</td>
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.quantity}}</td>
+        <td>{{product.selected}}</td>
+        <td>{{product.available}}</td>
+        <td>
+          <button (click)="onSelect(product)" [ngClass]="product.selected?'btn-success':'btn-danger'" class="btn btn-sm btn-success">
+            <span *ngIf="product.selected">Unselected</span>
+            <span *ngIf="!product.selected">Selected</span>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="onDelete(product)">
+            <span class="fa fa-trash-o"></span>
+          </button>
+        </td>
       </tr>
     </table>
   </ng-container>
