@@ -26,4 +26,9 @@ export class ProductsService {
     const host = environment.baseUrl;
     return this.http.get<Product[]>(host + '/products?available=true');
   }
+
+  searchProducts(keyword: string): Observable<Product[]>{
+    const host = environment.baseUrl;
+    return this.http.get<Product[]>(host + '/products?name_like=' + keyword);
+  }
 }
