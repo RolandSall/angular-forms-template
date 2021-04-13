@@ -42,4 +42,9 @@ export class ProductsService {
     const host = environment.baseUrl;
     return this.http.delete<void>(host + '/products/' + product.id);
   }
+
+  addProduct(product: Product): Observable<Product>{
+    const host = environment.baseUrl;
+    return this.http.post<Product>(host + '/products/', product);
+  }
 }

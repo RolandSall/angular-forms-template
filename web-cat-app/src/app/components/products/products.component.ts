@@ -4,6 +4,7 @@ import {Product} from '../../models/product.model';
 import {Observable, of} from 'rxjs';
 import {catchError, map, startWith} from 'rxjs/operators';
 import {AppDataState, DataStateEnum} from '../../state/product.state';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class ProductsComponent implements OnInit {
   dataStateEnum = DataStateEnum;
 
 
-  constructor(private productService: ProductsService) {
+  constructor(private productService: ProductsService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -76,5 +77,10 @@ export class ProductsComponent implements OnInit {
           this.onGetAllProducts();
         });
     }
+  }
+
+  onNewProduct(): void{
+    // @ts-ignore
+    this.router.navigateByUrl('/newProduct');
   }
 }
